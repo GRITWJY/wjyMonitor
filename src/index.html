@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>前端监控SDK</title>
+</head>
+<body>
+  <div id="container">
+    <div class="content main" style="text-align: center">
+      <div style="height: 400px;background: #ff0">
+        <input type="button" value="点击抛出错误" onclick="errorClick()">
+        <input type="button" value="点击抛出promise错误" onclick="promiseErrorClick()">
+        <input id="successbtn" type="button" value="ajax成功请求" onclick="sendSuccess()">
+        <input id="errorbtn" type="button" value="ajax失败请求" onclick="sendError()">
+      </div>
+
+    </div>
+  </div>
+  <script>
+		setTimeout(() => {
+			let content = document.getElementsByClassName('content')[0]
+			let h1 = document.createElement('h1')
+			h1.innerHTML = "最有意义"
+			h1.setAttribute('elementtiming', 'fasfhajsdf')
+			content.appendChild(h1)
+		}, 200)
+
+		function errorClick() {
+			window.someVar.error = 'error'
+		}
+
+		function promiseErrorClick() {
+			new Promise((resolve, reject) => {
+				window.someVar.error = 'error'
+			}).then(result => {
+				console.log(result)
+			})
+		}
+
+		function sendSuccess() {
+			let xhr = new XMLHttpRequest;
+			xhr.open('GET', '/success', true);
+			xhr.responseType = 'json'
+			xhr.onload = function () {
+				// console.log(xhr.reponse)
+			}
+			xhr.send();
+
+		}
+
+		function sendError() {
+			let xhr = new XMLHttpRequest;
+			xhr.open('POST', '/error', true);
+			xhr.responseType = 'json'
+			xhr.onerror = function (error) {
+				console.log(error)
+			}
+			xhr.send("name=wjy");
+		}
+  </script>
+</body>
+</html>
